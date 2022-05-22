@@ -1,5 +1,11 @@
+import random
+
 play_field = [i for i in range(1, 10)]
 print_field = ["-" for i in range(1, 10)]
+win_comb = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 5, 9], [3, 5, 7], [1, 4, 7],
+            [2, 5, 8], [3, 6, 9]]
+first_comb = []
+second_comb = []
 # for i in range(0, 9, 3):
 #     field = ""
 #     for y in range(1, 4):
@@ -23,6 +29,7 @@ def input_char():
         if char in play_field:
             play_field[char - 1] = gm_char
             print_field[char - 1] = gm_char
+            first_comb.append(char)
             print(f'Ты поставил {gm_char} в поле {char}')
             field_print(print_field)
             print("===========")
@@ -45,16 +52,75 @@ def field_print(field):
 
 field_print(play_field)
 gm_char = ""
+i_char = ""
 print("Это наше игровое поле", "===========", sep="\n")
 
 while not gm_char:
     gm_char = input("Введите символ 'х' или '0' которым будем играть: ")
     if gm_char == "x" or gm_char == "0":
         if gm_char == "x":
+            i_char = "0"
             print("===========", "Ты выбрал крестики", "===========", sep="\n")
         else:
             print("===========", "Ты выбрал нолики", "===========", sep="\n")
+            i_char = "x"
         break
     else:
         gm_char = ""
         print("Нужно ввести только 'x' или '0', попробуй снова")
+
+
+def i_step():
+    a = ""
+    while a not in play_field:
+        a = random.randint(1, 9)
+        if a in play_field:
+            play_field[a - 1] = i_char
+            print_field[a - 1] = i_char
+            second_comb.append(a)
+            break
+
+
+def win(win_comb, comb):
+    for i in win_comb:
+        res = [x for x in i if x in comb]
+        if res == i:
+            return True
+        else:
+            return False
+
+def game():
+    count = 1
+    while True:
+        print(count)
+        if gm_char == "x":
+            input_char()
+            i_step()
+            count += 1
+            if count >= 3 and win(win_comb, first_comb):
+                a = win(win_comb, first_comb)
+                print("Победили крестики!!!")
+                break
+            elif count >= 3 and win(win_comb, second_comb):
+                a = win(win_comb, second_comb)
+                print("Победили нолики!!!")
+                break
+        elif gm_char == "0":
+            i_step()
+            input_char()
+            count += 1
+            if count >= 3 and win(win_comb, second_comb):
+                a = win(win_comb, second_comb)
+                print("Победили крестики!!!")
+                break
+            elif count >= 3 and win(win_comb, first_comb):
+                a = win(win_comb, first_comb)
+                print("Победили нолики!!!")
+                break
+        elif count == 5:
+            break
+            print("Ничья")
+
+game()
+print(first_comb, second_comb)
+print(win(win_comb, first_comb), win(win_comb, second_comb))

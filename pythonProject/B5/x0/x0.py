@@ -6,13 +6,6 @@ win_comb = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 5, 9], [3, 5, 7], [1, 4, 7],
             [2, 5, 8], [3, 6, 9]]
 first_comb = []
 second_comb = []
-# for i in range(0, 9, 3):
-#     field = ""
-#     for y in range(1, 4):
-#         field += "|" + str(y + i)
-#         play_field.append(y + i)
-#     field += "|"
-#     print(field)
 
 
 def input_char():
@@ -71,56 +64,40 @@ while not gm_char:
 
 
 def i_step():
+    step = 1
     a = ""
     while a not in play_field:
         a = random.randint(1, 9)
+        step += 1
         if a in play_field:
             play_field[a - 1] = i_char
             print_field[a - 1] = i_char
             second_comb.append(a)
             break
+        elif step > 5:
+            break
 
 
-def win(win_comb, comb):
-    for i in win_comb:
-        res = [x for x in i if x in comb]
-        if res == i:
-            return True
-        else:
-            return False
+def win(win_com, comb):
+    check = set(comb)
+    win_c = bool([True for i in win_com if len(check.intersection(i)) == 3])
+    return win_c
+
 
 def game():
-    count = 1
-    while True:
-        print(count)
-        if gm_char == "x":
-            input_char()
-            i_step()
-            count += 1
-            if count >= 3 and win(win_comb, first_comb):
-                a = win(win_comb, first_comb)
-                print("Победили крестики!!!")
-                break
-            elif count >= 3 and win(win_comb, second_comb):
-                a = win(win_comb, second_comb)
-                print("Победили нолики!!!")
-                break
-        elif gm_char == "0":
-            i_step()
-            input_char()
-            count += 1
-            if count >= 3 and win(win_comb, second_comb):
-                a = win(win_comb, second_comb)
-                print("Победили крестики!!!")
-                break
-            elif count >= 3 and win(win_comb, first_comb):
-                a = win(win_comb, first_comb)
-                print("Победили нолики!!!")
-                break
-        elif count == 5:
+    for step in range(1, 10, 2):
+        input_char()
+        i_step()
+        if win(win_comb, first_comb):
+            print(f'Победили "{gm_char}"!!!', field_print(print_field), sep="\n")
             break
+        elif win(win_comb, second_comb):
+            print(f'Победили "{i_char}"!!!', field_print(print_field), sep="\n")
+            break
+        elif step >= 9:
             print("Ничья")
+            break
+        print(step)
 
 game()
-print(first_comb, second_comb)
-print(win(win_comb, first_comb), win(win_comb, second_comb))
+

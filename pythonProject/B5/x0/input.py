@@ -45,9 +45,12 @@ b = (1, 2, 5, 3)
 
 c = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 5, 9], [3, 5, 7], [1, 4, 7],
      [2, 5, 8], [3, 6, 9]]
-d = [1, 9, 3, 5]
-for i in c:
-    res = [x for x in i if x in d]
-    if res == i:
-        print("Да", res)
+d = []
+# while len(d) != 4:
+#     d.append(int(input("Введи: ")))
+#     check = set(d)
+#     win_comb = bool([True for comb in c if len(check.intersection(comb)) == 3])
+#     print(win_comb)
+print_field = ["-" for i in range(1, 10)]
+print(len(set(print_field)))
 

@@ -100,4 +100,3 @@ def game():
         print(step)
 
 game()
-

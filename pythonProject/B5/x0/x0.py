@@ -98,4 +98,5 @@ def game():
             print("Ничья")
             break
 
+
 game()

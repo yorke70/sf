@@ -97,6 +97,5 @@ def game():
         elif step >= 9:
             print("Ничья")
             break
-        print(step)
 
 game()
